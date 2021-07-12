@@ -23,6 +23,7 @@ const typeDefs = gql`
         horaCerta: String
         funcionario: Usuario
         produtoEmDestaque: Produto
+        numeroDaMegasena: [Int]!
     }
 `
 
@@ -72,6 +73,18 @@ const resolvers = {
                 desconto: 10,
                 preco: 250
             }
+        },
+
+        numeroDaMegasena() {
+            const array = [0,0,0,0,0,0,0]
+            return array.map(() => {
+               const number =  Math.floor(Math.random()*60)
+               if (array.includes(number)){
+                   console.log('entru')
+                    return  getOtherRandomNumber(number)
+               }
+               return number
+            })
         }
     }
 }
@@ -84,3 +97,13 @@ const server = new ApolloServer ({
 server.listen().then(({url}) => {
     console.log(`showing url ${url}`)
 })
+
+function getOtherRandomNumber (numberFound) {
+    var number =  Math.floor(Math.random()*60)
+
+    while (number === numberFound) {
+        number =  Math.floor(Math.random()*60)
+    }
+
+    return number
+}
