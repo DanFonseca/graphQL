@@ -11,20 +11,42 @@ const typeDefs = gql`
         vip: Boolean
     }
 
+    type Produto {
+        nome: String!
+        preco: Float!
+        desconto: Int
+        precoComDesconto: Float 
+    }
+
     type Query {
         ola: String
         horaCerta: String
         funcionario: Usuario
+        produtoEmDestaque: Produto
     }
 `
 
 const resolvers = {
+    
     Usuario: {
         salario (obj) {
             return obj.salario_atual
         }
     },
 
+    Produto: {
+        precoComDesconto (produto) {
+            const porcentagemDeDesconto = produto.desconto / 100
+            const desconto =  produto.preco - (produto.preco * porcentagemDeDesconto)
+            if (desconto == 0 || desconto < 0) return 0.0
+
+            return desconto
+        }
+    },
+
+
+
+    //EntryPoint
     Query: {
         ola() {
             return 'Parabéns, sua primeira consulta em graphQl :)'
@@ -41,6 +63,14 @@ const resolvers = {
                 idade: 27,
                 salario_atual: 10561.20,
                 vip: true
+            }
+        },
+
+        produtoEmDestaque () {
+            return {
+                nome: 'Batedeira Elétrica',
+                desconto: 10,
+                preco: 250
             }
         }
     }
