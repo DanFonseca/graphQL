@@ -1,9 +1,10 @@
-const {ApolloServer, gql} = require ('apollo-server')
+import {ApolloServer, gql} from 'apollo-server'   
+//import  {arrayUtil}  from './arrayUtil.js'
 
 const typeDefs = gql`
 
     type Usuario {
-        id: ID
+        id: Int
         nome: String
         email: String
         idade: Int
@@ -24,6 +25,8 @@ const typeDefs = gql`
         funcionario: Usuario
         produtoEmDestaque: Produto
         numeroDaMegasena: [Int]!
+        usuarios: [Usuario]!
+        UsuarioById(id: Int) : Usuario
     }
 `
 
@@ -75,6 +78,10 @@ const resolvers = {
             }
         },
 
+        usuarios () {
+            return getUsuarios()
+        },
+
         numeroDaMegasena() {
             const array = [0,0,0,0,0,0,0]
             return array.map(() => {
@@ -85,7 +92,14 @@ const resolvers = {
                }
                return number
             })
+        },
+
+        UsuarioById (_, {id}) {
+            const usuarios = getUsuarios()
+            return usuarios.filter(u => u.id == id)[0]
         }
+
+
     }
 }
 
@@ -106,4 +120,34 @@ function getOtherRandomNumber (numberFound) {
     }
 
     return number
+}
+
+
+function getUsuarios() {
+    return [
+            {
+                id: 1,
+                nome: "Joao Pereira",
+                email:  "joao@gmail.com",
+                idade: 17,
+                vip: false
+            },
+            {
+                id: 2,
+                nome: "Ana Souza",
+                email:  "ana.souza@gmail.com",
+                idade: 24,
+                salario: 10.523,
+                vip: true
+            },
+            {
+                id: 3,
+                nome: "Pedrinho da Silva",
+                email:  "pedro.dsva@gmail.com",
+                idade: 25,
+                salario: 2.324,
+                vip: false
+            }
+        ]
+    
 }
