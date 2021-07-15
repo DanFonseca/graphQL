@@ -4,12 +4,13 @@ import {ApolloServer, gql} from 'apollo-server'
 const typeDefs = gql`
 
     type Usuario {
-        id: Int
-        nome: String
+        id: Int!
+        nome: String!
         email: String
-        idade: Int
+        idade: Int!
         salario: Float
         vip: Boolean
+        perfil: Perfil
     }
 
     type Produto {
@@ -19,6 +20,11 @@ const typeDefs = gql`
         precoComDesconto: Float 
     }
 
+    type Perfil {
+        id: Int
+        nome: String
+    }
+
     type Query {
         ola: String
         horaCerta: String
@@ -26,16 +32,25 @@ const typeDefs = gql`
         produtoEmDestaque: Produto
         numeroDaMegasena: [Int]!
         usuarios: [Usuario]!
-        UsuarioById(id: Int) : Usuario
+        UsuarioById(id: Int): Usuario
+        perfilById(id: Int): Perfil
+        perfis: [Perfil]
     }
 `
 
 const resolvers = {
     
     Usuario: {
-        salario (obj) {
-            return obj.salario_atual
-        }
+      //  salario (obj) {
+        //    return obj.salario_atual
+        //},
+
+            perfil (usuario) {
+                const perfis = getPerfis()
+                return perfis.filter(perfil => {
+                return perfil.id === usuario.perfil
+                })[0]
+            }
     },
 
     Produto: {
@@ -96,9 +111,17 @@ const resolvers = {
 
         UsuarioById (_, {id}) {
             const usuarios = getUsuarios()
-            return usuarios.filter(u => u.id == id)[0]
-        }
+            return usuarios.filter(u => u.id === id)[0]
+        },
 
+        perfilById(_, {id}) {
+            const perfis = getPerfis()
+            return perfis.filter(u => u.id == id)[0]
+        },
+
+        perfis() {
+            return getPerfis()
+        }
 
     }
 }
@@ -130,7 +153,8 @@ function getUsuarios() {
                 nome: "Joao Pereira",
                 email:  "joao@gmail.com",
                 idade: 17,
-                vip: false
+                vip: false,
+                perfil: 1
             },
             {
                 id: 2,
@@ -138,7 +162,8 @@ function getUsuarios() {
                 email:  "ana.souza@gmail.com",
                 idade: 24,
                 salario: 10.523,
-                vip: true
+                vip: true,
+                perfil: 2
             },
             {
                 id: 3,
@@ -146,8 +171,23 @@ function getUsuarios() {
                 email:  "pedro.dsva@gmail.com",
                 idade: 25,
                 salario: 2.324,
-                vip: false
+                vip: false,
+                perfil: 1
             }
         ]
     
+}
+
+
+function getPerfis () {
+    return [
+        {
+            id: 1,
+            nome: "Administrador"
+        },
+        {
+            id: 2,
+            nome:"Comum"
+        }
+    ]
 }
