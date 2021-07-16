@@ -1,9 +1,8 @@
 const {ApolloServer, gql} = require ('apollo-server')
 const {importSchema} = require ('graphql-import')
-const {resolvers} = require ('./resolvers')
-
+const resolvers = require ('./resolvers')
 const pathSchema = importSchema('./schema/index.graphql')
-console.log(pathSchema)
+
 const server = new ApolloServer ({
     typeDefs: pathSchema,
     resolvers: resolvers
