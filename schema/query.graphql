@@ -1,0 +1,11 @@
+    type Query {
+        ola: String
+        horaCerta: String
+        funcionario: Usuario
+        produtoEmDestaque: Produto
+        numeroDaMegasena: [Int]!
+        usuarios: [Usuario]!
+        UsuarioById(id: Int): Usuario
+        perfilById(id: Int): Perfil
+        perfis: [Perfil]
+    }

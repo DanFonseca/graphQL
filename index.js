@@ -1,42 +1,6 @@
 import {ApolloServer, gql} from 'apollo-server'   
-//import  {arrayUtil}  from './arrayUtil.js'
+import {importSchema} from 'graphql-import'
 
-const typeDefs = gql`
-
-    type Usuario {
-        id: Int!
-        nome: String!
-        email: String
-        idade: Int!
-        salario: Float
-        vip: Boolean
-        perfil: Perfil
-    }
-
-    type Produto {
-        nome: String!
-        preco: Float!
-        desconto: Int
-        precoComDesconto: Float 
-    }
-
-    type Perfil {
-        id: Int
-        nome: String
-    }
-
-    type Query {
-        ola: String
-        horaCerta: String
-        funcionario: Usuario
-        produtoEmDestaque: Produto
-        numeroDaMegasena: [Int]!
-        usuarios: [Usuario]!
-        UsuarioById(id: Int): Usuario
-        perfilById(id: Int): Perfil
-        perfis: [Perfil]
-    }
-`
 
 const resolvers = {
     
@@ -127,7 +91,7 @@ const resolvers = {
 }
 
 const server = new ApolloServer ({
-    typeDefs,
+    typeDefs: importSchema('./schema/index.graphql'),
     resolvers
 })
 
