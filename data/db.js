@@ -5,7 +5,8 @@ const usuarios =  [
                 email:  "joao@gmail.com",
                 idade: 17,
                 vip: false,
-                perfil: 1
+                perfil: 1,
+                status: "ATIVO"
             },
             {
                 id: 2,
@@ -14,7 +15,8 @@ const usuarios =  [
                 idade: 24,
                 salario: 10.523,
                 vip: true,
-                perfil: 2
+                perfil: 2,
+                status: "BLOQUEADO"
             },
             {
                 id: 3,
@@ -23,7 +25,8 @@ const usuarios =  [
                 idade: 25,
                 salario: 2.324,
                 vip: false,
-                perfil: 1
+                perfil: 1,
+                status: "INATIVO"
             }
         ]
 

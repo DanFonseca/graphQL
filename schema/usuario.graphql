@@ -6,9 +6,16 @@
         salario: Float
         vip: Boolean
         perfil: Perfil
+        status: Status
     }
 
         type Perfil {
         id: Int
         nome: String
+    }
+
+    enum Status {
+        ATIVO,
+        INATIVO,
+        BLOQUEADO
     }
